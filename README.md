@@ -99,3 +99,24 @@ Vamos testar? No terminal rode o comando `$ python hello_world.py`, ele deve ini
 
 Em ambos você deve ver a mensagem que escrevemos no método get do código!
 
+### Parabéns! Você fez sua primeira aplicação usando Tornado
+
+EXEMPLO DO ASSÍNCRONO AQUI
+
+### Vamos ao que interessa né!
+
+Tudo muito bom, tudo muito bonito, mas você veio aqui pra FAZER UMA API, então, vamos fazer uma API!
+
+O que será essa API que faremos aqui? Estamos na Python Brasil né my friend, além de todas as palestras, tutoriais, conversas no corredor, novas amizades, etc, etc etc... 
+
+Uma das atividades muito importantes são os PyBar's! E nada mais justo, que uma aplicação que nos ajude a organizar todos os rolês que daremos por aqui né?! (*ouvi dizer que Ribeirão Preto tem mais cervejaria que gente*)
+
+Bem, nosso sistema contemplará um total de 01(um) modelo! Será o:
+
+**ROLÊ**, que possui os seguintes atributos:
+-  nome
+-  endereco
+-  data
+-  hora
+-  preco_da_cerveja
+-  tem_karaoke
