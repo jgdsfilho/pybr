@@ -120,3 +120,4 @@ Bem, nosso sistema contemplará um total de 01(um) modelo! Será o:
 -  hora
 -  preco_da_cerveja
 -  tem_karaoke
+-  quem_vai
