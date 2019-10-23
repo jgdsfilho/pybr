@@ -60,3 +60,42 @@ Um exemplo: Pensa numa pizzaria, quando você liga e pede uma pizza, eles não e
 
 Então a assincronia do Tornado é **QUASE** isso, quando recebemos uma requisição e sabemos que algo vai demorar, deixamos essa coisa acontecendo (requisição a um serviço externo, consulta a um banco de dados, assar uma pizza, etc...) e vamos recebendo mais requisições. Isso nos traz um ganho de performance.
 
+### Então...
+
+![show-me-the-code](images/show-me-the-code.jpg)
+
+### Vamos lá!
+
+-  Inicialmente, vamos criar uma pasta e nosso arquivo de hello world do Tornado.
+
+```
+$ mkdir ~/tutorial && cd ~/tutorial
+$ touch hello_world.py
+```
+
+No arquivo `hello_world.py` vamos inserir o seguinte código (novamente, qualquer dúvida **PODEM PERGUNTAR**):
+Além disso, os arquivos e códigos estão neste repositório.
+
+
+```
+from tornado.ioloop import IOLoop
+from tornado.web import RequestHandler, Application
+
+
+class MainHandler(RequestHandler):
+    def get(self):
+        self.write('E aí galera da Python Brasil 2019!')
+
+
+if __name__=='__main__':
+    app = Application([('/', MainHandler)])
+    app.listen(8000)
+    IOLoop.current().start()
+```
+
+Esse código é bem simples, e implementa um endpoint (que aceita somente o método http GET) na rota **"/"**.
+
+Vamos testar? No terminal rode o comando `$ python hello_world.py`, ele deve iniciar e ficar em branco mesmo. Em seguida, no browser acesse `localhost:8000`, ou no terminal execute `$ curl localhost:8000`.
+
+Em ambos você deve ver a mensagem que escrevemos no método get do código!
+
