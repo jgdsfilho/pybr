@@ -8,6 +8,7 @@ class Task(Base):
 
 
 ##### como criar modelo (igual slqalchemy normal)
+#https://github.com/siddhantgoel/tornado-sqlalchemy/blob/master/examples/tornado_web.py -> mais exemplo
  from sqlalchemy import Column, BigInteger, String
  from tornado_sqlalchemy import declarative_base
 
