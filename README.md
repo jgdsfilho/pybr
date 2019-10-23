@@ -33,6 +33,6 @@ Feito isso, deve aparecer o nome do seu venv entre parênteses no shell, como na
 
 ![terminal-01](images/terminal-01.png)
 
+-  Inicialmente, utilizaremos o [Tornado](https://tornadoweb.org/en/stable/) e o [Tornado-SQLAlchemy](https://tornado-sqlalchemy.readthedocs.io/en/latest/)  
 
-
-Inicialmente, utilizaremos o [Tornado](https://tornadoweb.org/en/stable/) e o [Tornado-SQLAlchemy](https://tornado-sqlalchemy.readthedocs.io/en/latest/)  
+`$ pip install tornado tornado-sqlalchemy`
