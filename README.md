@@ -267,6 +267,8 @@ app = Application([
 
 Já podemos testar se as conexões com o banco estão funcionando!
 
+Rode a aplicação com `$ python __init__.py`
+
 Só fazer uma requisição `$ curl localhost:8000/roles`
 
 Provavelmente você obteve um JSON vazio como resposta, então, precisamos adicionar valores ao nosso banco!
