@@ -357,3 +357,21 @@ Lembrando que esse do nome do app é único, não pode existir duplicados no her
 * Fazendo push do deploy para o heroku
 
 `$ git push heroku master`
+
+
+
+```
+n [1]: import urllib3
+       import time
+
+In [2]: http = urllib3.PoolManager()
+
+In [3]: def request_test():
+   ...:     start_time = time.time()
+   ...:     for i in range(100):
+   ...:         http.request('GET', 'https://fierce-savannah-11624.herokuapp.com/roles')
+   ...:     print(time.time() - start_time)
+   ...:
+
+In [4]: request_test()
+```
