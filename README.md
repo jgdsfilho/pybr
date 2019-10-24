@@ -128,3 +128,50 @@ Bem, nosso sistema contemplará um total de 01(um) modelo! Será o:
 -  preco_da_cerveja
 -  tem_karaoke
 -  quem_vai
+
+E teremos o endpoint:
+
+*/role*, que aceitará os métodos GET e POST.
+
+No GET, traremos as informações de todos os rolês marcados, no POST poderemos criar um novo rolê (ou atualizar caso este já exista).
+
+Vamos começar com nosso arquivo base, será o `__init__.py`.
+
+```
+from tornado.httpserver import HTTPServer
+from tornado.ioloop import IOLoop
+from tornado.web import Application, RequestHandler
+
+from motor import motor_tornado
+
+
+class MainHandler(BaseView):
+    def get(self):
+        self.write("Olá galera da Python Brasil 2019! "
+                   "Para ver os rolês faça requisições para '/roles'")
+
+
+def main():
+    port = 8000
+
+    client = motor_tornado.MotorClient('localhost', 27017)
+    db = client.roles_db
+
+    app = Application([
+        ('/', MainHandler),
+       ],
+       db=db
+    )
+
+    http_server = HTTPServer(app)
+    http_server.listen(port)
+    print('Listening on http://localhost:%i' % port)
+    IOLoop.current().start()
+
+
+if __name__== '__main__':
+    main()
+
+```
+
+A grande diferença deste para o arquivo que já haviamos criado antes no Hello World, é que agora estamos instanciando também o nosso banco mongo. Para isso, importamos o `motor` e instanciamos um objeto `MotorClient`. Depois, informamos ao Application que este será o DB que usaremos.
