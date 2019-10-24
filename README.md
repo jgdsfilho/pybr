@@ -247,3 +247,7 @@ app = Application([
        db=db
     )
 ```
+
+Já podemos testar se as conexões com o banco estão funcionando!
+
+Só fazer uma requisição `$ curl localhost:8000/roles`
