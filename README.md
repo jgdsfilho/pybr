@@ -296,10 +296,10 @@ async def post(self):
             'data': self._format_result_to_dict(result[0])
         }, status=201)
 
-    async def _do_find_all(self):
-        cursor = self.db.find()
-        all_data = [doc for doc in await cursor.to_list(length=1000)]
-        return all_data
+    async def _do_find(self, nome):
+        cursor = self.db.find({'nome': nome})
+        data = await cursor.to_list(length=1)
+        return data
 
     async def _do_update_one(self, _id, data):
         await self.db.replace_one({'_id': _id}, data)
