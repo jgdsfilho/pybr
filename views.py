@@ -18,10 +18,12 @@ class BaseView(RequestHandler):
 
 
 class RolesHandler(BaseView):
+    collection = 'role_collection'
+
     def get(self):
         self.write("Hello, world!")
 
-    def post(self):
+    async def post(self):
         required_params = ('nome', 'endereco', 'data')
         acceptable_params = (
             'hora', 'preco_da_cerveja', 'tem_karaoke', 'quem_vai'
@@ -38,9 +40,40 @@ class RolesHandler(BaseView):
             self.send_response({'errors': errors}, status=400)
             return
 
-        self._do_insert_one(body)
+        role = await self._do_find(body.get('nome'))
+
+        if role:
+            role = role[0]
+            quem_ja_ia = role.get('quem_vai')
+            quem_mais_vai = body.get('quem_vai')
+
+            new_data = {
+                key: body.get(key) or role.get(key)
+                for key in required_params + acceptable_params
+            }
+
+            if quem_ja_ia and quem_mais_vai:
+                new_data['quem_vai'] = f'{quem_ja_ia}, {quem_mais_vai}'
+
+            result = await self._do_update_one(role.get('_id'), new_data)
+            self.send_response('gluglu')
+            return
+
+        result = await self._do_insert_one(body)
         self.send_response({'message': 'Role successfully inserted'})
 
-    def _do_insert_one(self, data, collection='role_collection'):
+    async def _do_find(self, nome):
         db = self.settings['db']
-        result = db[collection].insert_one(data)
+        cursor = db[self.collection].find({'nome': nome})
+        data = await cursor.to_list(length=1)
+        return data
+
+    async def _do_update_one(self, _id, data):
+        db = self.settings['db']
+        result = await db[self.collection].replace_one({'_id': _id}, data)
+        return result
+
+    async def _do_insert_one(self, data):
+        db = self.settings['db']
+        result = await db[self.collection].insert_one(data)
+        return result
