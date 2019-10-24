@@ -145,7 +145,7 @@ from tornado.web import Application, RequestHandler
 from motor import motor_tornado
 
 
-class MainHandler(BaseView):
+class MainHandler(RequestHandler):
     def get(self):
         self.write("Olá galera da Python Brasil 2019! "
                    "Para ver os rolês faça requisições para '/roles'")
@@ -175,3 +175,75 @@ if __name__== '__main__':
 ```
 
 A grande diferença deste para o arquivo que já haviamos criado antes no Hello World, é que agora estamos instanciando também o nosso banco mongo. Para isso, importamos o `motor` e instanciamos um objeto `MotorClient`. Depois, informamos ao Application que este será o DB que usaremos.
+
+
+Em seguida, criaremos o nosso arquivo `views.py` onde faremos o nosso RequestHandler principal para tratar de fato dos rolês!
+
+Nele, criaremos uma classe BaseView, para evitar duplicação de código futuramente =D.
+
+```
+import json
+
+from tornado.web import RequestHandler
+
+
+class BaseView(RequestHandler):
+    """Base view for this application."""
+
+    def set_default_headers(self):
+        """Set the default response header to be JSON."""
+        self.set_header("Content-Type", 'application/json; charset="utf-8"')
+
+    def send_response(self, data, status=200):
+        """Construct and send a JSON response with appropriate status code."""
+        self.set_status(status)
+        self.write(json.dumps(data))
+
+
+
+class RolesHandler(BaseView):
+    def __init__(self, application, request):
+        super( RolesHandler, self ).__init__(application, request)
+        _db = self.settings['db']
+        self.collection = 'role_collection'
+        self.db = _db[self.collection]
+        self.required_params = ('nome', )
+        self.acceptable_params = (
+            'hora', 'preco_da_cerveja', 'tem_karaoke', 'quem_vai', 'endereco',
+            'data'
+        )
+        self.all_params = self.required_params + self.acceptable_params
+
+    async def get(self):
+        data = await self._do_find_all()
+        self.write({
+            'data': [self._format_result_to_dict(d) for d in data]
+        })
+
+    async def _do_find_all(self):
+        cursor = self.db.find()
+        all_data = [doc for doc in await cursor.to_list(length=1000)]
+        return all_data
+
+    def _format_result_to_dict(self, mongo_result):
+        result_dict = {key: mongo_result.get(key) for key in self.all_params}
+        return result_dict
+
+```
+
+Além da classe BaseView, criamos uma classe RolesHandler (no mesmo padrão que já haviamos criado antes) com um método GET. Esse método já está sendo tratado com `async` e `await` para que possamos ter requisições assíncronas.
+
+Agora, precisamos importar este Handler e colocá-lo na definição de Handlers no `__init__.py`
+
+```
+from views import BaseView, RolesHandler
+
+...
+
+app = Application([
+        ('/', MainHandler),
+        ('/roles', RolesHandler),
+       ],
+       db=db
+    )
+```
