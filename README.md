@@ -144,7 +144,7 @@ Bem, nosso sistema contemplará um total de 01(um) modelo! Será o:
 
 E teremos o endpoint:
 
-*/role*, que aceitará os métodos GET e POST.
+*/roles*, que aceitará os métodos GET e POST.
 
 No GET, traremos as informações de todos os rolês marcados, no POST poderemos criar um novo rolê (ou atualizar caso este já exista).
 
