@@ -338,7 +338,7 @@ Para fazermos o POST, podemos usar o seguinte comando:
 
 ```
 curl -X POST \
-  http://localhost:8888/roles \
+  http://localhost:8000/roles \
   -H 'Content-Type: application/json'
   -d '{
 	"nome": "oooooo",
