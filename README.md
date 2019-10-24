@@ -334,6 +334,21 @@ async def post(self):
 
 Além do POST, adicionamos alguns métodos auxiliares para lidar com o banco, e fazer validação de parâmetros.
 
+Para fazermos o POST, podemos usar o seguinte comando:
+
+```
+curl -X POST \
+  http://localhost:8888/roles \
+  -H 'Content-Type: application/json'
+  -d '{
+	"nome": "oooooo",
+	"endereco": "onde tiver gela",
+	"data": "amastarde",
+	"preco_da_cerveja": 5.50
+}'
+```
+
+
 ### Fazendo Deploy no Heroku
 #### Instalção e cadastros
 * É necessário criar a conta no heroku no link abaixo:
