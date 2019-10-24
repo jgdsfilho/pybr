@@ -10,8 +10,7 @@ from motor import motor_tornado
 
 from views import BaseView, RolesHandler
 
-define('port', default=8888, help='port to list on')
-
+port = int(os.environ.get("PORT", 5000))
 
 class MainHandler(BaseView):
     def get(self):
@@ -36,8 +35,8 @@ def main():
     )
 
     http_server = HTTPServer(app)
-    http_server.listen(options.port)
-    print('Listening on http://localhost:%i' % options.port)
+    http_server.listen(port)
+    print('Listening on http://localhost:%i' % port)
     IOLoop.current().start()
 
 
