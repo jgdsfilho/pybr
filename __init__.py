@@ -10,6 +10,8 @@ from motor import motor_tornado
 
 from views import BaseView, RolesHandler
 
+PORT = int(os.environ.get("PORT", 5000))
+
 class MainHandler(BaseView):
     def get(self):
         self.write("Olá galera da Python Brasil 2019! "
@@ -30,7 +32,7 @@ def main():
     )
 
     http_server = HTTPServer(app)
-    http_server.listen(8000)
+    http_server.listen(PORT)
     IOLoop.current().start()
 
 
