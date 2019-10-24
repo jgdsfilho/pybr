@@ -43,6 +43,8 @@ Para instalar o mongo, sugerimos os tutoriais oficiais da documentação do Mong
 
 https://docs.mongodb.com/manual/installation/
 
+ps: *A instalação para linux debian-based e mac são bem rápidas e simples. Acredito que em outros sistemas/distros devem ser também, mas qualquer coisa dá um grito que a gente desenrola =D*
+
 ### Agora que já temos o venv pronto e o mongo instalado, vamos pra um pouco de teoria (bem pouco)
 
 -  Inicialmente, o que é uma API?
