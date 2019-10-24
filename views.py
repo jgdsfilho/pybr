@@ -29,8 +29,11 @@ class RolesHandler(BaseView):
         )
         self.all_params = self.required_params + self.acceptable_params
 
-    def get(self):
-        self.write("Hello, world!")
+    async def get(self):
+        data = await self._do_find_all()
+        self.write({
+            'data': [self._format_result_to_dict(d) for d in data]
+        })
 
     async def post(self):
         body = json.loads(self.request.body)
@@ -69,14 +72,12 @@ class RolesHandler(BaseView):
         self.send_response({
             'message': 'Role successfully inserted',
             'data': self._format_result_to_dict(result[0])
-        })
+        }, status=201)
 
     async def _do_find_all(self):
         cursor = self.db.find()
-        all_data = [
-            json.dumps(doc) for doc in await cursor.to_list(length=1)
-        ]
-        return(all_data)
+        all_data = [doc for doc in await cursor.to_list(length=1000)]
+        return all_data
 
     async def _do_find(self, nome):
         cursor = self.db.find({'nome': nome})
