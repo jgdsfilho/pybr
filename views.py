@@ -18,23 +18,28 @@ class BaseView(RequestHandler):
 
 
 class RolesHandler(BaseView):
-    collection = 'role_collection'
+    def __init__(self, application, request):
+        super( RolesHandler, self ).__init__(application, request)
+        _db = self.settings['db']
+        self.collection = 'role_collection'
+        self.db = _db[self.collection]
+        self.required_params = ('nome', 'endereco', 'data')
+        self.acceptable_params = (
+            'hora', 'preco_da_cerveja', 'tem_karaoke', 'quem_vai'
+        )
+        self.all_params = self.required_params + self.acceptable_params
 
     def get(self):
         self.write("Hello, world!")
 
     async def post(self):
-        required_params = ('nome', 'endereco', 'data')
-        acceptable_params = (
-            'hora', 'preco_da_cerveja', 'tem_karaoke', 'quem_vai'
-        )
         errors = []
         body = json.loads(self.request.body)
-        for param in required_params:
+        for param in self.required_params:
             if param not in body:
                 errors.append({param: 'Required parameter'})
         for param in body:
-            if param not in required_params + acceptable_params:
+            if param not in self.all_params:
                 errors.append({param: 'Unexpected parameter'})
         if errors:
             self.send_response({'errors': errors}, status=400)
@@ -49,31 +54,45 @@ class RolesHandler(BaseView):
 
             new_data = {
                 key: body.get(key) or role.get(key)
-                for key in required_params + acceptable_params
+                for key in self.all_params
             }
 
             if quem_ja_ia and quem_mais_vai:
                 new_data['quem_vai'] = f'{quem_ja_ia}, {quem_mais_vai}'
 
-            result = await self._do_update_one(role.get('_id'), new_data)
-            self.send_response('gluglu')
+            await self._do_update_one(role.get('_id'), new_data)
+            result = await self._do_find(new_data['nome'])
+
+            result_dict = {key: result[0][key] for key in self.all_params}
+
+            self.send_response({
+            'message': 'Role successfully updated',
+            'data': result_dict
+        })
             return
 
         result = await self._do_insert_one(body)
-        self.send_response({'message': 'Role successfully inserted'})
+        self.send_response({
+            'message': 'Role successfully inserted',
+            'data': result
+        })
+
+    async def _do_find_all(self):
+        cursor = self.db.find()
+        all_data = [
+            json.dumps(doc) for doc in await cursor.to_list(length=1)
+        ]
+        return(all_data)
 
     async def _do_find(self, nome):
-        db = self.settings['db']
-        cursor = db[self.collection].find({'nome': nome})
+        cursor = self.db.find({'nome': nome})
         data = await cursor.to_list(length=1)
         return data
 
     async def _do_update_one(self, _id, data):
-        db = self.settings['db']
-        result = await db[self.collection].replace_one({'_id': _id}, data)
+        result = await self.db.replace_one({'_id': _id}, data)
         return result
 
     async def _do_insert_one(self, data):
-        db = self.settings['db']
-        result = await db[self.collection].insert_one(data)
+        result = await self.db.insert_one(data)
         return result
