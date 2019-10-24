@@ -135,6 +135,10 @@ E teremos o endpoint:
 
 No GET, traremos as informações de todos os rolês marcados, no POST poderemos criar um novo rolê (ou atualizar caso este já exista).
 
+Antes de começar, inicialize um repositório local com o comando abaixo:
+
+`$ git init`
+
 Vamos começar com nosso arquivo base, será o `__init__.py`.
 
 ```
@@ -320,3 +324,27 @@ async def post(self):
 ```
 
 Além do POST, adicionamos alguns métodos auxiliares para lidar com o banco, e fazer validação de parâmetros.
+
+### Fazendo Deploy no Heroku
+#### Instalção e cadastros
+* É necessário criar a conta no heroku no link abaixo:
+    - https://www.heroku.com/
+* Depois instalar o heroku-cli:
+    - https://devcenter.heroku.com/articles/heroku-cli
+* Após instalar o cli do heroku é necessário logar:
+    
+    `$ heroku login`
+* Tamném será necessário se cadastrar no site https://mlab.com/ para podermos criar uma sandbox com MongoDB
+
+#### Criando app com heroku
+
+    `$ heroku create pybr-tornado3 nome_do_app`
+Lembrando que esse do nome do app é único, não pode existir duplicados no heroku
+
+* Configurando variável de ambiente do mongo
+
+`$ heroku config:set MONGO_URL=mongodb://uses:pass@endereco_do_mlab`
+
+* Fazendo push do deploy para o heroku
+
+`$ git push heroku master`
