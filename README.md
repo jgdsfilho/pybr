@@ -108,7 +108,16 @@ Em ambos você deve ver a mensagem que escrevemos no método get do código!
 
 ### Parabéns! Você fez sua primeira aplicação usando Tornado
 
-EXEMPLO DO ASSÍNCRONO AQUI
+Agora, um rápido exemplo sobre a diferença entre requisições síncronas e assíncronas para serviços externos.
+
+-  100 Requisições feitas de forma síncrona
+
+![terminal-01](images/Ssync.jpg)
+
+-  100 Requisições feitas de forma assíncrona
+
+![terminal-01](images/Async.jpg)
+
 
 ### Vamos ao que interessa né!
 
