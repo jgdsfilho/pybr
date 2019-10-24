@@ -23,9 +23,10 @@ class RolesHandler(BaseView):
         _db = self.settings['db']
         self.collection = 'role_collection'
         self.db = _db[self.collection]
-        self.required_params = ('nome', 'endereco', 'data')
+        self.required_params = ('nome', )
         self.acceptable_params = (
-            'hora', 'preco_da_cerveja', 'tem_karaoke', 'quem_vai'
+            'hora', 'preco_da_cerveja', 'tem_karaoke', 'quem_vai', 'endereco',
+            'data'
         )
         self.all_params = self.required_params + self.acceptable_params
 

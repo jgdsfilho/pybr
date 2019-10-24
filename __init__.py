@@ -1,16 +1,14 @@
+import os
 import json
 
 from tornado.httpserver import HTTPServer
 from tornado.ioloop import IOLoop
 from tornado.options import define, options
 from tornado.web import Application, RequestHandler
-import os
 
 from motor import motor_tornado
 
 from views import BaseView, RolesHandler
-
-port = int(os.environ.get("PORT", 5000))
 
 class MainHandler(BaseView):
     def get(self):
@@ -19,13 +17,10 @@ class MainHandler(BaseView):
 
 
 def main():
-
     MONGO_URL = os.environ.get('MONGO_URL')
-    if not MONGO_URL:
-        MONGO_URL = "mongodb://localhost:27017/"
 
-    client = motor_tornado.MotorClient('localhost', 27017)
-    db = client.test_db
+    client = motor_tornado.MotorClient(MONGO_URL, retryWrites=False)
+    db = client['pybr-roles']
 
     app = Application([
         ('/', MainHandler),
@@ -35,8 +30,7 @@ def main():
     )
 
     http_server = HTTPServer(app)
-    http_server.listen(port)
-    print('Listening on http://localhost:%i' % port)
+    http_server.listen(8000)
     IOLoop.current().start()
 
 
