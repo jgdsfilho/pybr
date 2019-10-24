@@ -7,7 +7,7 @@ Sejam muito bem vindos ao tutorial de APIs Assíncronas, feito pelo [Genilson](h
 
 ### Inicialmente, vamos montar nosso ambiente!
 
-Aqui utilizaremos Python 3.6.x e sugerimos fortemente que usem um ambiente virtual isolado (explicaremos como fazer).
+Aqui utilizaremos Python 3.6.x e mongoDB,  sugerimos fortemente que usem um ambiente virtual isolado (explicaremos como fazer).
 
 #### Criando o ambiente virtual:
 
@@ -33,12 +33,17 @@ Feito isso, deve aparecer o nome do seu venv entre parênteses no shell, como na
 
 ![terminal-01](images/terminal-01.png)
 
--  Inicialmente, utilizaremos o [Tornado](https://tornadoweb.org/en/stable/) e o [Tornado-SQLAlchemy](https://tornado-sqlalchemy.readthedocs.io/en/latest/)  
+-  Inicialmente, utilizaremos o [Tornado](https://tornadoweb.org/en/stable/) e o [Motor](https://motor.readthedocs.io/en/stable/index.html)  
 
-`$ pip install tornado tornado-sqlalchemy`
+`$ pip install tornado motor
 
+#### Instalando o mongodb
 
-### Agora que já temos o venv, vamos pra um pouco de teoria (bem pouco)
+Para instalar o mongo, sugerimos os tutoriais oficiais da documentação do MongoDB.
+
+https://docs.mongodb.com/manual/installation/
+
+### Agora que já temos o venv pronto e o mongo instalado, vamos pra um pouco de teoria (bem pouco)
 
 -  Inicialmente, o que é uma API?
 
