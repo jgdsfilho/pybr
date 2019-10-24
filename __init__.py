@@ -4,6 +4,7 @@ from tornado.httpserver import HTTPServer
 from tornado.ioloop import IOLoop
 from tornado.options import define, options
 from tornado.web import Application, RequestHandler
+import os
 
 from motor import motor_tornado
 
@@ -19,6 +20,10 @@ class MainHandler(BaseView):
 
 
 def main():
+
+    MONGO_URL = os.environ.get('MONGO_URL')
+    if not MONGO_URL:
+        MONGO_URL = "mongodb://localhost:27017/"
 
     client = motor_tornado.MotorClient('localhost', 27017)
     db = client.test_db
