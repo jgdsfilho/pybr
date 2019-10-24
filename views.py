@@ -33,14 +33,9 @@ class RolesHandler(BaseView):
         self.write("Hello, world!")
 
     async def post(self):
-        errors = []
         body = json.loads(self.request.body)
-        for param in self.required_params:
-            if param not in body:
-                errors.append({param: 'Required parameter'})
-        for param in body:
-            if param not in self.all_params:
-                errors.append({param: 'Unexpected parameter'})
+        errors = self._validate_params(body)
+
         if errors:
             self.send_response({'errors': errors}, status=400)
             return
@@ -63,18 +58,17 @@ class RolesHandler(BaseView):
             await self._do_update_one(role.get('_id'), new_data)
             result = await self._do_find(new_data['nome'])
 
-            result_dict = {key: result[0][key] for key in self.all_params}
-
             self.send_response({
-            'message': 'Role successfully updated',
-            'data': result_dict
-        })
+                'message': 'Role successfully updated',
+                'data': self._format_result_to_dict(result[0])
+            })
             return
 
-        result = await self._do_insert_one(body)
+        await self._do_insert_one(body)
+        result = await self._do_find(body['nome'])
         self.send_response({
             'message': 'Role successfully inserted',
-            'data': result
+            'data': self._format_result_to_dict(result[0])
         })
 
     async def _do_find_all(self):
@@ -90,9 +84,22 @@ class RolesHandler(BaseView):
         return data
 
     async def _do_update_one(self, _id, data):
-        result = await self.db.replace_one({'_id': _id}, data)
-        return result
+        await self.db.replace_one({'_id': _id}, data)
 
     async def _do_insert_one(self, data):
-        result = await self.db.insert_one(data)
-        return result
+        await self.db.insert_one(data)
+
+    def _format_result_to_dict(self, mongo_result):
+        result_dict = {key: mongo_result.get(key) for key in self.all_params}
+        return result_dict
+
+    def _validate_params(self, body):
+        errors = []
+        for param in self.required_params:
+            if param not in body:
+                errors.append({param: 'Required parameter'})
+        for param in body:
+            if param not in self.all_params:
+                errors.append({param: 'Unexpected parameter'})
+
+        return errors
