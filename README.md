@@ -11,7 +11,7 @@ Aqui utilizaremos Python 3.6.x e mongoDB,  sugerimos fortemente que usem um ambi
 
 #### Criando o ambiente virtual:
 
--  Para os usuários de Linux (debian-based), simplismente executar:
+-  Para os usuários de Linux (debian-based), simplesmente executar:
 
 `$ sudo apt install virtualenv`  OU  `$ sudo apt install python3-venv`  OU  `$ pip install virtualenv`
 
@@ -35,7 +35,7 @@ Feito isso, deve aparecer o nome do seu venv entre parênteses no shell, como na
 
 -  Inicialmente, utilizaremos o [Tornado](https://tornadoweb.org/en/stable/) e o [Motor](https://motor.readthedocs.io/en/stable/index.html)  
 
-`$ pip install tornado motor
+`$ pip install tornado motor`
 
 #### Instalando o mongodb
 
@@ -55,9 +55,9 @@ Por exemplo, em uma suposta API de um banco, um usuário pode acessar sua conta 
 
 Dúvidas? Fiquem a vontade para perguntar!
 
-- Tá, mas e esse Tornado, qual a diferença dele para o flask, por exemplo?
+- Tá, mas e esse Tornado, qual a diferença dele para o Flask, por exemplo?
 
-Bem, o tornado, assim como flask e diversos outros, é um framework web, que te permite iniciar um servidor para receber e tratar requisições. A principal diferença do tornado para a maioria dos outros, é que ele implementa nativamente um sistema de controle de requisições assíncronas, o que dá uma grande vantagem na hora de escalar essa aplicação.
+Bem, o tornado, assim como Flask e diversos outros, é um framework web, que te permite iniciar um servidor para receber e tratar requisições. A principal diferença do Tornado para a maioria dos outros, é que ele implementa nativamente um sistema de controle de requisições assíncronas, o que dá uma grande vantagem na hora de escalar essa aplicação.
 
 - Assíncrono??
 
@@ -102,7 +102,11 @@ if __name__=='__main__':
 
 Esse código é bem simples, e implementa um endpoint (que aceita somente o método http GET) na rota **"/"**.
 
-Vamos testar? No terminal rode o comando `$ python hello_world.py`, ele deve iniciar e ficar em branco mesmo. Em seguida, no browser acesse `localhost:8000`, ou no terminal execute `$ curl localhost:8000`.
+Vamos testar? No terminal rode o comando
+
+`$ python hello_world.py`
+
+ele deve iniciar e ficar em branco mesmo. Em seguida, no browser acesse `localhost:8000`, ou no terminal execute `$ curl localhost:8000`.
 
 Em ambos você deve ver a mensagem que escrevemos no método get do código!
 
@@ -140,7 +144,7 @@ Bem, nosso sistema contemplará um total de 01(um) modelo! Será o:
 
 E teremos o endpoint:
 
-*/role*, que aceitará os métodos GET e POST.
+*/roles*, que aceitará os métodos GET e POST.
 
 No GET, traremos as informações de todos os rolês marcados, no POST poderemos criar um novo rolê (ou atualizar caso este já exista).
 
@@ -263,6 +267,10 @@ app = Application([
 
 Já podemos testar se as conexões com o banco estão funcionando!
 
+Rode a aplicação com `$ python __init__.py`
+
+Lembre-se de rodar o MongoDB: `$ sudo service mongod start`
+
 Só fazer uma requisição `$ curl localhost:8000/roles`
 
 Provavelmente você obteve um JSON vazio como resposta, então, precisamos adicionar valores ao nosso banco!
@@ -350,7 +358,9 @@ curl -X POST \
 
 
 ### Fazendo Deploy no Heroku
-#### Instalção e cadastros
+
+#### Instalação e cadastros
+
 * É necessário criar a conta no heroku no link abaixo:
     - https://www.heroku.com/
 * Depois instalar o heroku-cli:
@@ -358,11 +368,12 @@ curl -X POST \
 * Após instalar o cli do heroku é necessário logar:
     
     `$ heroku login`
-* Tamném será necessário se cadastrar no site https://mlab.com/ para podermos criar uma sandbox com MongoDB
+* Também será necessário se cadastrar no site https://mlab.com/ para podermos criar uma sandbox com MongoDB
 
 #### Criando app com heroku
 
-    `$ heroku create pybr-tornado3 nome_do_app`
+`$ heroku create pybr-tornado3 nome_do_app`
+
 Lembrando que esse do nome do app é único, não pode existir duplicados no heroku
 
 * Configurando variável de ambiente do mongo
